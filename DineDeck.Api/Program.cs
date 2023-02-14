@@ -1,13 +1,19 @@
+using DineDeck.Api.Middleware;
 using DineDeck.Application;
 using DineDeck.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services
+{
+    builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers();
+    builder.Services.AddControllers();
+}
 
 var app = builder.Build();
-app.UseHttpsRedirection();
-app.MapControllers();
-app.Run();
+{
+    app.UseMiddleware<ErrorHandlingMiddleware>();
+    app.UseHttpsRedirection();
+    app.MapControllers();
+    app.Run();
+}
