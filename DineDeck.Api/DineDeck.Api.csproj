@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>b017f5b3-426d-4903-a1ab-430adcebb9b7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DineDeck.Contracts\DineDeck.Contracts.csproj" />
+    <ProjectReference Include="..\DineDeck.Application\DineDeck.Application.csproj" />
+    <ProjectReference Include="..\DineDeck.Infrastructure\DineDeck.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

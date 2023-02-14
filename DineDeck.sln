@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineDeck.Api", "DineDeck.Api\DineDeck.Api.csproj", "{E28A6756-ABFE-4D51-AA4A-973DB5BC9EEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineDeck.Application", "DineDeck.Application\DineDeck.Application.csproj", "{08E4B2C5-ED81-43AF-AEA7-437DABDCEE4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineDeck.Contracts", "DineDeck.Contracts\DineDeck.Contracts.csproj", "{E19B1C5F-2FC2-49BA-BAF5-4D7570F2D054}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineDeck.Domain", "DineDeck.Domain\DineDeck.Domain.csproj", "{512E061D-ACF7-4C7C-AFCB-63FA603817D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DineDeck.Infrastructure", "DineDeck.Infrastructure\DineDeck.Infrastructure.csproj", "{1F4436FB-A0EB-4867-BE26-44E57B28285F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E28A6756-ABFE-4D51-AA4A-973DB5BC9EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28A6756-ABFE-4D51-AA4A-973DB5BC9EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28A6756-ABFE-4D51-AA4A-973DB5BC9EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28A6756-ABFE-4D51-AA4A-973DB5BC9EEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08E4B2C5-ED81-43AF-AEA7-437DABDCEE4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08E4B2C5-ED81-43AF-AEA7-437DABDCEE4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08E4B2C5-ED81-43AF-AEA7-437DABDCEE4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08E4B2C5-ED81-43AF-AEA7-437DABDCEE4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19B1C5F-2FC2-49BA-BAF5-4D7570F2D054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19B1C5F-2FC2-49BA-BAF5-4D7570F2D054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E19B1C5F-2FC2-49BA-BAF5-4D7570F2D054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19B1C5F-2FC2-49BA-BAF5-4D7570F2D054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{512E061D-ACF7-4C7C-AFCB-63FA603817D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{512E061D-ACF7-4C7C-AFCB-63FA603817D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{512E061D-ACF7-4C7C-AFCB-63FA603817D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{512E061D-ACF7-4C7C-AFCB-63FA603817D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F4436FB-A0EB-4867-BE26-44E57B28285F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F4436FB-A0EB-4867-BE26-44E57B28285F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F4436FB-A0EB-4867-BE26-44E57B28285F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F4436FB-A0EB-4867-BE26-44E57B28285F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
