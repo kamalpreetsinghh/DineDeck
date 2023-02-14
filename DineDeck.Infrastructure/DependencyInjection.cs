@@ -4,6 +4,8 @@ using DineDeck.Application.Common.Interfaces.Authentication;
 using DineDeck.Infrastructure.Authentication;
 using DineDeck.Application.Common.Interfaces.Services;
 using DineDeck.Infrastructure.Services;
+using DineDeck.Application.Common.Interfaces.Persistence;
+using DineDeck.Infrastructure.Persistence;
 
 namespace DineDeck.Infrastructure;
 public static class DependencyInjection
@@ -13,6 +15,7 @@ public static class DependencyInjection
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.AddSingleton<IJWTTokenGenerator, JwtTokenGenerator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IUserRepository, UserRepository>();
         return services;
     }
 }

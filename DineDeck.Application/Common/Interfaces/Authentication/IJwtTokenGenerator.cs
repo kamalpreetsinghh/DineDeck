@@ -1,5 +1,7 @@
+using DineDeck.Domain.Entities;
+
 namespace DineDeck.Application.Common.Interfaces.Authentication;
 public interface IJWTTokenGenerator
 {
-    string GenerateToken(Guid userId, string FirstName, string lastName);
+    string GenerateToken(User user);
 }
