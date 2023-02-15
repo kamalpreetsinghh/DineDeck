@@ -1,4 +1,5 @@
 using DineDeck.Application.Common.Interfaces.Authentication;
+using DineDeck.Application.Common.Interfaces.Errors;
 using DineDeck.Application.Common.Interfaces.Persistence;
 using DineDeck.Domain.Entities;
 
@@ -18,7 +19,7 @@ public class AuthenticationService : IAuthenticationService
     AuthenticationResult IAuthenticationService.Register(string firstName, string lastName, string email, string password)
     {
         if (_userRepository.GetUserByEmail(email) is not null)
-            throw new Exception("User already exists");
+            throw new DuplicateEmailException();
 
         var user = new User
         {
