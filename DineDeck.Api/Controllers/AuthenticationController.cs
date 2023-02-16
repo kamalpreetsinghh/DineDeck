@@ -1,7 +1,9 @@
+using DineDeck.Application.Authentication.Common;
 using DineDeck.Application.Common.Interfaces.Errors;
-using DineDeck.Application.Services.Authentication;
+using DineDeck.Application.Services.Authentication.Command;
 using DineDeck.Contracts.Authentication;
 using FluentResults;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DineDeck.Api.Controllers;
@@ -10,22 +12,24 @@ namespace DineDeck.Api.Controllers;
 [Route("auth")]
 public class AuthenticationController : ControllerBase
 {
-    private readonly IAuthenticationService _authenticationService;
+    private readonly ISender _imediator;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(IMediator imediator)
     {
-        _authenticationService = authenticationService;
+        _imediator = imediator;
     }
 
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
-        Result<AuthenticationResult> registerResult = _authenticationService.Register(
+        var registerCommand = new RegisterCommand(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password
             );
+
+        Result<AuthenticationResult> registerResult = await _imediator.Send(registerCommand);
 
         if (registerResult.IsSuccess)
         {
@@ -43,14 +47,22 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
+    public async Task<IActionResult> Login(LoginRequest request)
     {
-        var authResult = _authenticationService.Login(
+        var loginCommand = new LoginQuery(
             request.Email,
             request.Password
             );
-        AuthenticationResponse authResponse = MapAuthResult(authResult);
-        return Ok(authResponse);
+
+        Result<AuthenticationResult> loginResult = await _imediator.Send(loginCommand);
+
+        if (loginResult.IsSuccess)
+        {
+            return Ok(MapAuthResult(loginResult.Value));
+        }
+
+
+        return Problem();
     }
 
     private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)

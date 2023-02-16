@@ -1,6 +1,6 @@
 using DineDeck.Domain.Entities;
 
-namespace DineDeck.Application.Services.Authentication;
+namespace DineDeck.Application.Authentication.Common;
 
 public record AuthenticationResult(
     User User,

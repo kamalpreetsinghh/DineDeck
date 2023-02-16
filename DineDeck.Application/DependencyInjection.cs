@@ -1,11 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
-using DineDeck.Application.Services.Authentication;
+using MediatR;
 
 namespace DineDeck.Application;
+
 public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        return services.AddScoped<IAuthenticationService, AuthenticationService>();
+        return services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
     }
 }
