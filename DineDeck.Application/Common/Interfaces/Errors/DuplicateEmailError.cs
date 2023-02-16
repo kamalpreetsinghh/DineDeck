@@ -1,8 +1,12 @@
 using System.Net;
+using FluentResults;
 
 namespace DineDeck.Application.Common.Interfaces.Errors;
-public record struct DuplicateEmailError()
+public class DuplicateEmailError : IError
 {
-    public HttpStatusCode StatusCode => HttpStatusCode.Conflict;
-    public string ErrorMessage => "Email already exists";
+    List<IError> IError.Reasons => throw new NotImplementedException();
+
+    string IReason.Message => throw new NotImplementedException();
+
+    Dictionary<string, object> IReason.Metadata => throw new NotImplementedException();
 }

@@ -1,8 +1,8 @@
 using DineDeck.Application.Common.Interfaces.Errors;
 using DineDeck.Application.Services.Authentication;
 using DineDeck.Contracts.Authentication;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using OneOf;
 
 namespace DineDeck.Api.Controllers;
 
@@ -20,17 +20,26 @@ public class AuthenticationController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        OneOf<AuthenticationResult, DuplicateEmailError> registerResult = _authenticationService.Register(
+        Result<AuthenticationResult> registerResult = _authenticationService.Register(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password
             );
 
-        return registerResult.Match(
-            authResult => Ok(MapAuthResult(authResult)),
-            error => Problem(statusCode: (int)error.StatusCode, title: error.ErrorMessage)
-            );
+        if (registerResult.IsSuccess)
+        {
+            return Ok(MapAuthResult(registerResult.Value));
+        }
+
+        var firstError = registerResult.Errors[0];
+
+        if (firstError is DuplicateEmailError)
+        {
+            return Problem(statusCode: StatusCodes.Status409Conflict, detail: "Email already exists");
+        }
+
+        return Problem();
     }
 
     [HttpPost("login")]
