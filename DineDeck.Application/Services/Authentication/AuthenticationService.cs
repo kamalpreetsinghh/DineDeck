@@ -2,6 +2,7 @@ using DineDeck.Application.Common.Interfaces.Authentication;
 using DineDeck.Application.Common.Interfaces.Errors;
 using DineDeck.Application.Common.Interfaces.Persistence;
 using DineDeck.Domain.Entities;
+using OneOf;
 
 namespace DineDeck.Application.Services.Authentication;
 
@@ -16,10 +17,10 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository;
     }
 
-    AuthenticationResult IAuthenticationService.Register(string firstName, string lastName, string email, string password)
+    public OneOf<AuthenticationResult, DuplicateEmailError> Register(string firstName, string lastName, string email, string password)
     {
         if (_userRepository.GetUserByEmail(email) is not null)
-            throw new DuplicateEmailException();
+            return new DuplicateEmailError();
 
         var user = new User
         {
@@ -35,7 +36,7 @@ public class AuthenticationService : IAuthenticationService
         return new AuthenticationResult(user, token);
     }
 
-    AuthenticationResult IAuthenticationService.Login(string email, string password)
+    public AuthenticationResult Login(string email, string password)
     {
         var user = _userRepository.GetUserByEmail(email);
         if (user is null)

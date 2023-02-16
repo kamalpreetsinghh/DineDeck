@@ -1,6 +1,8 @@
+using DineDeck.Application.Common.Interfaces.Errors;
 using DineDeck.Application.Services.Authentication;
 using DineDeck.Contracts.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
 
 namespace DineDeck.Api.Controllers;
 
@@ -18,20 +20,17 @@ public class AuthenticationController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        var authResult = _authenticationService.Register(
+        OneOf<AuthenticationResult, DuplicateEmailError> registerResult = _authenticationService.Register(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password
             );
-        var authResponse = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.FirstName,
-            authResult.User.LastName,
-            authResult.User.Email,
-            authResult.Token
+
+        return registerResult.Match(
+            authResult => Ok(MapAuthResult(authResult)),
+            error => Problem(statusCode: (int)error.StatusCode, title: error.ErrorMessage)
             );
-        return Ok(authResponse);
     }
 
     [HttpPost("login")]
@@ -41,13 +40,18 @@ public class AuthenticationController : ControllerBase
             request.Email,
             request.Password
             );
-        var authResponse = new AuthenticationResponse(
-           authResult.User.Id,
-           authResult.User.FirstName,
-           authResult.User.LastName,
-           authResult.User.Email,
-           authResult.Token
-           );
+        AuthenticationResponse authResponse = MapAuthResult(authResult);
         return Ok(authResponse);
+    }
+
+    private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
+    {
+        return new AuthenticationResponse(
+                    authResult.User.Id,
+                    authResult.User.FirstName,
+                    authResult.User.LastName,
+                    authResult.User.Email,
+                    authResult.Token
+                    );
     }
 }
