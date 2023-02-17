@@ -15,6 +15,8 @@
 
   <ItemGroup>
     <PackageReference Include="fluentResults" Version="3.15.2" />
+    <PackageReference Include="mapster" Version="7.3.0" />
+    <PackageReference Include="mapster.dependencyinjection" Version="1.0.0" />
     <PackageReference Include="mediatr" Version="12.0.0" />
     <PackageReference Include="oneof" Version="3.0.223" />
   </ItemGroup>

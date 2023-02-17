@@ -20,6 +20,7 @@ namespace DineDeck.Application.Services.Authentication.Command
 
         public async Task<Result<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
             var user = _userRepository.GetUserByEmail(query.Email);
             if (user is null)
                 return Result.Fail<AuthenticationResult>(new[] { new DuplicateEmailError() });

@@ -3,6 +3,7 @@ using DineDeck.Application.Common.Interfaces.Errors;
 using DineDeck.Application.Services.Authentication.Command;
 using DineDeck.Contracts.Authentication;
 using FluentResults;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,27 +14,24 @@ namespace DineDeck.Api.Controllers;
 public class AuthenticationController : ControllerBase
 {
     private readonly ISender _imediator;
+    private readonly IMapper _mapper;
 
-    public AuthenticationController(IMediator imediator)
+    public AuthenticationController(IMediator imediator, IMapper mapper)
     {
         _imediator = imediator;
+        _mapper = mapper;
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var registerCommand = new RegisterCommand(
-            request.FirstName,
-            request.LastName,
-            request.Email,
-            request.Password
-            );
+        var registerCommand = _mapper.Map<RegisterCommand>(request);
 
         Result<AuthenticationResult> registerResult = await _imediator.Send(registerCommand);
 
         if (registerResult.IsSuccess)
         {
-            return Ok(MapAuthResult(registerResult.Value));
+            return Ok(_mapper.Map<AuthenticationResponse>(registerResult.Value));
         }
 
         var firstError = registerResult.Errors[0];
@@ -49,30 +47,16 @@ public class AuthenticationController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var loginCommand = new LoginQuery(
-            request.Email,
-            request.Password
-            );
+        var loginQuery = _mapper.Map<LoginQuery>(request);
 
-        Result<AuthenticationResult> loginResult = await _imediator.Send(loginCommand);
+        Result<AuthenticationResult> loginResult = await _imediator.Send(loginQuery);
 
         if (loginResult.IsSuccess)
         {
-            return Ok(MapAuthResult(loginResult.Value));
+            return Ok(_mapper.Map<AuthenticationResponse>(loginResult.Value));
         }
-
 
         return Problem();
     }
 
-    private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
-    {
-        return new AuthenticationResponse(
-                    authResult.User.Id,
-                    authResult.User.FirstName,
-                    authResult.User.LastName,
-                    authResult.User.Email,
-                    authResult.Token
-                    );
-    }
 }
