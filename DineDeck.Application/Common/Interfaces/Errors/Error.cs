@@ -1,7 +1,7 @@
 using FluentResults;
 
 namespace DineDeck.Application.Common.Interfaces.Errors;
-public class DuplicateEmailError : IError
+public class Error : IError
 {
     List<IError> IError.Reasons => throw new NotImplementedException();
 

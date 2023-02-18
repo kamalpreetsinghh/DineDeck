@@ -58,5 +58,4 @@ public class AuthenticationController : ControllerBase
 
         return Problem();
     }
-
 }
