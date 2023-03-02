@@ -4,16 +4,21 @@ namespace DineDeck.Domain.MenuReviewAggregate.ValueObjects
 {
     public sealed class MenuReviewId : ValueObject
     {
-        public Guid Value { get; }
+        public Guid Value { get; private set; }
 
-        public MenuReviewId(Guid value)
+        private MenuReviewId(Guid value)
         {
             Value = value;
         }
 
         public static MenuReviewId CreateUnique()
         {
-            return new(Guid.NewGuid());
+            return new MenuReviewId(Guid.NewGuid());
+        }
+
+        public static MenuReviewId Create(Guid value)
+        {
+            return new MenuReviewId(value);
         }
 
         public override IEnumerable<object> GetEqualityComponents()

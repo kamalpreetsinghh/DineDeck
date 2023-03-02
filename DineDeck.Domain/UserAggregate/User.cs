@@ -5,28 +5,27 @@ namespace DineDeck.Domain.UserAggregate;
 
 public sealed class User : AggregateRoot<UserId>
 {
-    public string FirstName { get; }
-    public string LastName { get; }
-    public string Email { get; }
-    public string Password { get; }
-    public DateTime CreatedDateTime { get; }
-    public DateTime UpdatedDateTime { get; }
+    public string FirstName { get; private set; } = null!;
+    public string LastName { get; private set; } = null!;
+    public string Email { get; private set; } = null!;
+    public string Password { get; private set; } = null!;
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
+
+    private User() { }
+
     private User(
         UserId userId,
         string firstName,
         string lastName,
         string email,
-        string password,
-        DateTime createdDateTime,
-        DateTime updatedDateTime)
+        string password)
         : base(userId)
     {
         FirstName = firstName;
         LastName = lastName;
         Email = email;
         Password = password;
-        CreatedDateTime = createdDateTime;
-        UpdatedDateTime = updatedDateTime;
     }
 
     public static User Create(
@@ -36,13 +35,11 @@ public sealed class User : AggregateRoot<UserId>
         string password
     )
     {
-        return new(
+        return new User(
             UserId.CreateUnique(),
             firstName,
             lastName,
             email,
-            password,
-            DateTime.UtcNow,
-            DateTime.UtcNow);
+            password);
     }
 }

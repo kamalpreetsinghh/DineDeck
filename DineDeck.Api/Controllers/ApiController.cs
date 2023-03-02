@@ -5,6 +5,7 @@ namespace DineDeck.Api.Controllers;
 
 [ApiController]
 [Authorize]
+[Route("[controller]")]
 public class ApiController : ControllerBase
 {
 

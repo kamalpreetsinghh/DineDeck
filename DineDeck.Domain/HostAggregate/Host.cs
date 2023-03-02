@@ -1,4 +1,5 @@
 using DineDeck.Domain.Common.Models;
+using DineDeck.Domain.Common.ValueObjects;
 using DineDeck.Domain.DinnerAggregate.ValueObjects;
 using DineDeck.Domain.HostAggregate.ValueObjects;
 using DineDeck.Domain.MenuAggregate.ValueObjects;
@@ -10,31 +11,32 @@ public sealed class Host : AggregateRoot<HostId>
 {
     private readonly List<MenuId> _menuIds = new();
     private readonly List<DinnerId> _dinnerIds = new();
-    public string FirstName { get; }
-    public string LastName { get; }
-    public string ProfileImage { get; }
-    public float AverageRating { get; }
-    public UserId UserId { get; }
-    public DateTime CreatedDateTime { get; }
-    public DateTime UpdatedDateTime { get; }
-    public IReadOnlyCollection<MenuId> MenuIds => _menuIds.AsReadOnly();
-    public IReadOnlyCollection<DinnerId> DinnerIds => _dinnerIds.AsReadOnly();
+    public string FirstName { get; private set; } = null!;
+    public string LastName { get; private set; } = null!;
+    public string ProfileImage { get; private set; } = null!;
+    public AverageRating AverageRating { get; private set; } = null!;
+    public UserId UserId { get; private set; } = null!;
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
+    public IReadOnlyList<MenuId> MenuIds => _menuIds.AsReadOnly();
+    public IReadOnlyList<DinnerId> DinnerIds => _dinnerIds.AsReadOnly();
+
+    private Host() { }
+
     private Host(
         HostId hostId,
         string firstName,
         string lastName,
         string profileImage,
-        UserId userId,
-        DateTime createdDateTime,
-        DateTime updatedDateTime)
-        : base(hostId)
+        AverageRating averageRating,
+        UserId userId)
+        : base(hostId ?? HostId.Create(userId.Value))
     {
         FirstName = firstName;
         LastName = lastName;
         ProfileImage = profileImage;
+        AverageRating = averageRating;
         UserId = userId;
-        CreatedDateTime = createdDateTime;
-        UpdatedDateTime = updatedDateTime;
     }
 
     public static Host Create(
@@ -44,12 +46,11 @@ public sealed class Host : AggregateRoot<HostId>
         UserId userId)
     {
         return new(
-            HostId.CreateUnique(),
+            HostId.Create(userId.Value),
             firstName,
             lastName,
             profileImage,
-            userId,
-            DateTime.UtcNow,
-            DateTime.UtcNow);
+            AverageRating.CreateNew(),
+            userId);
     }
 }

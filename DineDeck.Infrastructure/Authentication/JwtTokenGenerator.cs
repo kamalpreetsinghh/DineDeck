@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using DineDeck.Application.Common.Interfaces.Authentication;
 using DineDeck.Application.Common.Interfaces.Services;
 using Microsoft.Extensions.Options;
-using DineDeck.Domain.Entities;
+using DineDeck.Domain.UserAggregate;
 
 namespace DineDeck.Infrastructure.Authentication;
 
@@ -28,7 +28,7 @@ public class JwtTokenGenerator : IJWTTokenGenerator
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString() ?? string.Empty),
             new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
             new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),

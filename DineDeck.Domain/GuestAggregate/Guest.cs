@@ -1,6 +1,7 @@
 using DineDeck.Domain.BillAggregate.ValueObjects;
 using DineDeck.Domain.Common.Models;
 using DineDeck.Domain.DinnerAggregate.ValueObjects;
+using DineDeck.Domain.GuestAggregate.Entities;
 using DineDeck.Domain.GuestAggregate.ValueObjects;
 using DineDeck.Domain.MenuReviewAggregate.ValueObjects;
 using DineDeck.Domain.UserAggregate.ValueObjects;
@@ -9,39 +10,39 @@ namespace DineDeck.Domain.GuestAggregate;
 
 public sealed class Guest : AggregateRoot<GuestId>
 {
-    private readonly List<DinnerId> _upcominDinnerIds = new();
+    private readonly List<DinnerId> _upcomingDinnerIds = new();
     private readonly List<DinnerId> _pastDinnerIds = new();
     private readonly List<DinnerId> _pendingDinnerIds = new();
     private readonly List<BillId> _billIds = new();
     private readonly List<MenuReviewId> _menuReviewIds = new();
-    public string FirstName { get; }
-    public string LastName { get; }
-    public string ProfileImage { get; }
-    public float AverageRating { get; }
-    public UserId UserId { get; }
-    public IReadOnlyCollection<DinnerId> UpcomingDinnerIds => _upcominDinnerIds.AsReadOnly();
-    public IReadOnlyCollection<DinnerId> PastDinnerIds => _pastDinnerIds.AsReadOnly();
-    public IReadOnlyCollection<DinnerId> PendingDinnerIds => _pendingDinnerIds.AsReadOnly();
-    public IReadOnlyCollection<BillId> BillIds => _billIds.AsReadOnly();
-    public IReadOnlyCollection<MenuReviewId> MenuReviewIds => _menuReviewIds.AsReadOnly();
-    public DateTime CreatedDateTime { get; }
-    public DateTime UpdatedDateTime { get; }
+    private readonly List<GuestRating> _guestRatings = new();
+    public string FirstName { get; private set; } = null!;
+    public string LastName { get; private set; } = null!;
+    public string ProfileImage { get; private set; } = null!;
+    public UserId UserId { get; private set; } = null!;
+    public IReadOnlyList<DinnerId> UpcomingDinnerIds => _upcomingDinnerIds.AsReadOnly();
+    public IReadOnlyList<DinnerId> PastDinnerIds => _pastDinnerIds.AsReadOnly();
+    public IReadOnlyList<DinnerId> PendingDinnerIds => _pendingDinnerIds.AsReadOnly();
+    public IReadOnlyList<BillId> BillIds => _billIds.AsReadOnly();
+    public IReadOnlyList<MenuReviewId> MenuReviewIds => _menuReviewIds.AsReadOnly();
+    public IReadOnlyList<GuestRating> GuestRatings => _guestRatings.AsReadOnly();
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
+
+    private Guest() { }
+
     private Guest(
         GuestId guestId,
         string firstName,
         string lastName,
         string profileImage,
-        UserId userId,
-        DateTime createdDateTime,
-        DateTime updatedDateTime)
+        UserId userId)
         : base(guestId)
     {
         FirstName = firstName;
         LastName = lastName;
         ProfileImage = profileImage;
         UserId = userId;
-        CreatedDateTime = createdDateTime;
-        UpdatedDateTime = updatedDateTime;
     }
 
     public static Guest Create(
@@ -55,8 +56,6 @@ public sealed class Guest : AggregateRoot<GuestId>
             firstName,
             lastName,
             profileImage,
-            userId,
-            DateTime.UtcNow,
-            DateTime.UtcNow);
+            userId);
     }
 }

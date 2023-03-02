@@ -1,4 +1,5 @@
 using DineDeck.Domain.Common.Models;
+using DineDeck.Domain.Common.ValueObjects;
 using DineDeck.Domain.DinnerAggregate.ValueObjects;
 using DineDeck.Domain.GuestAggregate.ValueObjects;
 using DineDeck.Domain.HostAggregate.ValueObjects;
@@ -9,24 +10,25 @@ namespace DineDeck.Domain.MenuReviewAggregate;
 
 public sealed class MenuReview : AggregateRoot<MenuReviewId>
 {
-    public float Rating { get; }
-    public string Comment { get; }
-    public HostId HostId { get; }
-    public MenuId MenuId { get; }
-    public GuestId GuestId { get; }
-    public DinnerId DinnerId { get; }
-    public DateTime CreatedDateTime { get; }
-    public DateTime UpdatedDateTime { get; }
+    public int Rating { get; private set; }
+    public string Comment { get; private set; } = null!;
+    public HostId HostId { get; private set; } = null!;
+    public MenuId MenuId { get; private set; } = null!;
+    public GuestId GuestId { get; private set; } = null!;
+    public DinnerId DinnerId { get; private set; } = null!;
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
+
+    private MenuReview() { }
+
     private MenuReview(
         MenuReviewId menuReviewId,
-        float rating,
+        int rating,
         string comment,
         HostId hostId,
         MenuId menuId,
         GuestId guestId,
-        DinnerId dinnerId,
-        DateTime createdDateTime,
-        DateTime updatedDateTime)
+        DinnerId dinnerId)
         : base(menuReviewId)
     {
         Rating = rating;
@@ -35,27 +37,23 @@ public sealed class MenuReview : AggregateRoot<MenuReviewId>
         MenuId = menuId;
         GuestId = guestId;
         DinnerId = dinnerId;
-        CreatedDateTime = createdDateTime;
-        UpdatedDateTime = updatedDateTime;
     }
 
     public static MenuReview Create(
-        float rating,
+        int rating,
         string comment,
         HostId hostId,
         MenuId menuId,
         GuestId guestId,
         DinnerId dinnerId)
     {
-        return new(
+        return new MenuReview(
             MenuReviewId.CreateUnique(),
             rating,
             comment,
             hostId,
             menuId,
             guestId,
-            dinnerId,
-            DateTime.UtcNow,
-            DateTime.UtcNow);
+            dinnerId);
     }
 }

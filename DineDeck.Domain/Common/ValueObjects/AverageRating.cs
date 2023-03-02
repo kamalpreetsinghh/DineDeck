@@ -5,22 +5,29 @@ namespace DineDeck.Domain.Common.ValueObjects;
 public sealed class AverageRating : ValueObject
 {
     public double Value { get; private set; }
-    public int NumberOfRatings { get; private set; }
+    public int NumRatings { get; private set; }
 
-    public AverageRating(double value, int numberOfRatings)
+    private AverageRating() { }
+
+    private AverageRating(double value, int numRatings)
     {
         Value = value;
-        NumberOfRatings = numberOfRatings;
+        NumRatings = numRatings;
     }
 
-    public static AverageRating CreateNew(double rating = 0, int numberOfRatings = 0)
+    public static AverageRating CreateNew(double rating = 0, int numRatings = 0)
     {
-        return new AverageRating(rating, numberOfRatings);
+        return new AverageRating(rating, numRatings);
     }
 
-    public void AddNewRating(Rating rating)
+    public void AddNewRating(int rating)
     {
-        Value = ((Value * NumberOfRatings) + rating.Value) / (NumberOfRatings + 1);
+        Value = ((Value * NumRatings) + rating) / ++NumRatings;
+    }
+
+    public void RemoveRating(int rating)
+    {
+        Value = ((Value * NumRatings) - rating) / --NumRatings;
     }
 
     public override IEnumerable<object> GetEqualityComponents()

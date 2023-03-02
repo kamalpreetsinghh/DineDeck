@@ -1,5 +1,6 @@
 using DineDeck.Domain.BillAggregate.ValueObjects;
 using DineDeck.Domain.Common.Models;
+using DineDeck.Domain.Common.ValueObjects;
 using DineDeck.Domain.DinnerAggregate.ValueObjects;
 using DineDeck.Domain.GuestAggregate.ValueObjects;
 using DineDeck.Domain.HostAggregate.ValueObjects;
@@ -8,39 +9,41 @@ namespace DineDeck.Domain.BillAggregate;
 
 public sealed class Bill : AggregateRoot<BillId>
 {
-    public DinnerId DinnerId { get; }
-    public GuestId GuestId { get; }
-    public HostId HostId { get; }
-    public DateTime CreatedDateTime { get; }
-    public DateTime UpdatedDateTime { get; }
+    public DinnerId DinnerId { get; private set; } = null!;
+    public GuestId GuestId { get; private set; } = null!;
+    public HostId HostId { get; private set; } = null!;
+    public Price Price { get; private set; } = null!;
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
+
+    private Bill() { }
+
     private Bill(
         BillId billId,
         DinnerId dinnerId,
         GuestId guestId,
         HostId hostId,
-        DateTime createdDateTime,
-        DateTime updatedDateTime)
+        Price price)
         : base(billId)
     {
         DinnerId = dinnerId;
         GuestId = guestId;
         HostId = hostId;
-        CreatedDateTime = createdDateTime;
-        UpdatedDateTime = updatedDateTime;
+        Price = price;
     }
 
     public static Bill Create(
         DinnerId dinnerId,
         GuestId guestId,
-        HostId hostId
-    )
+        HostId hostId,
+        Price price)
     {
-        return new(
+        return new Bill(
             BillId.CreateUnique(),
             dinnerId,
             guestId,
             hostId,
-            DateTime.UtcNow,
-            DateTime.UtcNow);
+            price
+        );
     }
 }

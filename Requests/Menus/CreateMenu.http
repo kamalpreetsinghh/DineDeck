@@ -1,22 +1,22 @@
 @host = http://localhost:5218
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3M2YyMzZlZC1mY2NjLTQ5MDUtYjJmMC1jZmE0ZWJiOWMzN2IiLCJnaXZlbl9uYW1lIjoiU2FzdWtlIiwiZmFtaWx5X25hbWUiOiJVY2hpaGEiLCJqdGkiOiI3YmMxYzY3MC02ZmMxLTRkYjMtYmVkMi03Zjk0ZGE5MzJiMzgiLCJleHAiOjE2NzY5NDcyOTUsImlzcyI6IkRpbmVEZWNrIiwiYXVkIjoiRGluZURlY2sifQ.QsCZgYT9C4k16rfHydBgDrJeQA9ALcdLhJdId5fjHlI
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NmE5ZjBmMS0zODViLTQzNzgtYWYzNC00MzgwOTM0MDU3MDgiLCJnaXZlbl9uYW1lIjoiTmFydXRvIiwiZmFtaWx5X25hbWUiOiJVenVtYWtpIiwianRpIjoiNWY2ZjFjM2ItNGNlMC00ZDVmLWFmMGItOWRjZDE4YjVkMDVjIiwiZXhwIjoxNjc3MjEzMzA4LCJpc3MiOiJEaW5lRGVjayIsImF1ZCI6IkRpbmVEZWNrIn0.I6eeRgLqeP_X2nZvoDFWvK1yizBSfbRS6CQsRXpToJs
 @hostId = 00000000-0000-0000-0000-000000000000
 POST {{host}}/hosts/{{hostId}}/menus
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "name": "Menu 1",
-    "description": "Menu 1",
+    "name": "Pancakes",
+    "description": "Add pancake mix, eggs, milk, and butter to a bowl and mix until smooth. Heat a lightly oiled griddle or frying pan over medium high heat. Pour or scoop the batter onto the griddle, using approximately 1/4 cup for each pancake. Brown on both sides and serve hot.",
     "sections": [
         {
-            "name": "Section 1",
-            "description": "Section 1",
+            "name": "Mix it in a bowl",
+            "description": "Mix it in a bowl until smooth",
             "items": [
                 {
-                    "name": "Item 1",
-                    "description": "Item 1"
+                    "name": "Add some oil",
+                    "description": "Heat a lightly oiled griddle or frying pan over medium high heat"
                 }
             ]
         }

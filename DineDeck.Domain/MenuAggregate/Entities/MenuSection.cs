@@ -5,31 +5,30 @@ namespace DineDeck.Domain.MenuAggregate.Entities;
 
 public sealed class MenuSection : Entity<MenuSectionId>
 {
-    private readonly List<MenuItem> _menuItems = new();
-    public string Name { get; }
-    public string Description { get; }
-    public IReadOnlyCollection<MenuItem> MenuItems => _menuItems.AsReadOnly();
+    private readonly List<MenuItem> _items = new();
+    public string Name { get; private set; } = null!;
+    public string Description { get; private set; } = null!;
+    public IReadOnlyList<MenuItem> Items => _items.AsReadOnly();
 
-    public MenuSection(MenuSectionId menuSectionId, string name, string description) : base(menuSectionId)
+    private MenuSection() { }
+
+    private MenuSection(
+        string name,
+        string description,
+        List<MenuItem> items,
+        MenuSectionId? menuSectionId = null)
+        : base(menuSectionId ?? MenuSectionId.CreateUnique())
     {
         Name = name;
         Description = description;
+        _items = items;
     }
 
-    public MenuSection(MenuSectionId menuSectionId, string name, string description, List<MenuItem> menuItems) : base(menuSectionId)
+    public static MenuSection Create(
+        string name,
+        string description,
+        List<MenuItem>? items = null)
     {
-        Name = name;
-        Description = description;
-        _menuItems = menuItems;
-    }
-
-    public static MenuSection Create(string name, string description)
-    {
-        return new MenuSection(MenuSectionId.CreateUnique(), name, description);
-    }
-
-    public static MenuSection Create(string name, string description, List<MenuItem> menuItems)
-    {
-        return new MenuSection(MenuSectionId.CreateUnique(), name, description);
+        return new MenuSection(name, description, items ?? new());
     }
 }

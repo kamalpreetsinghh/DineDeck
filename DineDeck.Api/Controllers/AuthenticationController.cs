@@ -5,13 +5,14 @@ using DineDeck.Contracts.Authentication;
 using FluentResults;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DineDeck.Api.Controllers;
 
-[ApiController]
 [Route("auth")]
-public class AuthenticationController : ControllerBase
+[AllowAnonymous]
+public class AuthenticationController : ApiController
 {
     private readonly ISender _imediator;
     private readonly IMapper _mapper;

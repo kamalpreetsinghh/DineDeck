@@ -4,16 +4,18 @@ namespace DineDeck.Domain.BillAggregate.ValueObjects;
 
 public sealed class BillId : ValueObject
 {
-    public Guid Value { get; }
+    public Guid Value { get; private set; }
 
-    public BillId(Guid value)
-    {
-        Value = value;
-    }
+    private BillId(Guid value) => Value = value;
 
     public static BillId CreateUnique()
     {
-        return new(Guid.NewGuid());
+        return new BillId(Guid.NewGuid());
+    }
+
+    public static BillId Create(Guid value)
+    {
+        return new BillId(value);
     }
 
     public override IEnumerable<object> GetEqualityComponents()

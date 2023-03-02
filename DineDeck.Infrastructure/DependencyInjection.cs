@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using DineDeck.Infrastructure.Persistence.Repositories;
 
 namespace DineDeck.Infrastructure;
 public static class DependencyInjection
@@ -19,6 +21,7 @@ public static class DependencyInjection
         services
             .AddAuth(configuration)
             .AddPersistence();
+
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         return services;
@@ -26,6 +29,9 @@ public static class DependencyInjection
 
     public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
+        services.AddDbContext<DineDeckDbContext>(options =>
+            options.UseSqlServer("Server=tcp:dinedeck.database.windows.net,1433;Initial Catalog=Dinedeck;Persist Security Info=False;User ID=admin@dinedeck.com@dinedeck;Password=Dinedeck@life1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IMenuRepository, MenuRepository>();
         return services;

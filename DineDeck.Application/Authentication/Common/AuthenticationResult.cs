@@ -1,4 +1,4 @@
-using DineDeck.Domain.Entities;
+using DineDeck.Domain.UserAggregate;
 
 namespace DineDeck.Application.Authentication.Common;
 

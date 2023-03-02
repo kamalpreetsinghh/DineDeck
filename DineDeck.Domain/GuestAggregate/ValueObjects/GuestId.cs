@@ -6,14 +6,19 @@ public sealed class GuestId : ValueObject
 {
     public Guid Value { get; }
 
-    public GuestId(Guid value)
+    private GuestId(Guid value)
     {
         Value = value;
     }
 
     public static GuestId CreateUnique()
     {
-        return new(Guid.NewGuid());
+        return new GuestId(Guid.NewGuid());
+    }
+
+    public static GuestId Create(Guid value)
+    {
+        return new GuestId(value);
     }
 
     public override IEnumerable<object> GetEqualityComponents()

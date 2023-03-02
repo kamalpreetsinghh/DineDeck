@@ -1,7 +1,7 @@
 namespace DineDeck.Contracts.Authentication;
 
 public record AuthenticationResponse(
-    Guid Id,
+    string Id,
     string FirstName,
     string LastName,
     string Email,

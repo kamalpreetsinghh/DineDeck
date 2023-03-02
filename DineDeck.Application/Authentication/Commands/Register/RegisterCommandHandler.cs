@@ -2,7 +2,7 @@ using DineDeck.Application.Authentication.Common;
 using DineDeck.Application.Common.Interfaces.Authentication;
 using DineDeck.Application.Common.Interfaces.Errors;
 using DineDeck.Application.Common.Interfaces.Persistence;
-using DineDeck.Domain.Entities;
+using DineDeck.Domain.UserAggregate;
 using FluentResults;
 using MediatR;
 
@@ -25,13 +25,13 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Result<Au
         if (_userRepository.GetUserByEmail(command.Email) is not null)
             return Result.Fail<AuthenticationResult>(new[] { new DuplicateEmailError() });
 
-        var user = new User
-        {
-            FirstName = command.FirstName,
-            LastName = command.LastName,
-            Email = command.Email,
-            Password = command.Password
-        };
+        var user = User.Create
+        (
+            command.FirstName,
+            command.LastName,
+            command.Email,
+            command.Password
+        );
 
         _userRepository.Add(user);
 
